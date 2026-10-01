@@ -1,0 +1,138 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "IT Support Mock Ticket API",
+    "version": "1.0.0",
+    "description": "Creates mock IT support tickets for a watsonx Assistant custom extension demo."
+  },
+  "servers": [
+    {
+      "url": "https://YOUR-HTTPS-HOST.example.com"
+    }
+  ],
+  "paths": {
+    "/create-ticket": {
+      "post": {
+        "operationId": "createTicket",
+        "summary": "Create an IT support ticket",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ticket created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or identity error"
+          },
+          "422": {
+            "description": "Missing or invalid fields"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TicketRequest": {
+        "type": "object",
+        "required": [
+          "ticket_type",
+          "employee_id"
+        ],
+        "properties": {
+          "ticket_type": {
+            "type": "string",
+            "enum": [
+              "password_reset",
+              "laptop_request",
+              "access_request"
+            ]
+          },
+          "employee_id": {
+            "type": "string",
+            "example": "E12345"
+          },
+          "department": {
+            "type": "string"
+          },
+          "laptop_type": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          },
+          "system_name": {
+            "type": "string"
+          },
+          "manager_name": {
+            "type": "string"
+          },
+          "identity_verified": {
+            "type": "boolean",
+            "default": false
+          },
+          "approval_required": {
+            "type": "boolean",
+            "default": false
+          },
+          "route_to": {
+            "type": "string"
+          }
+        }
+      },
+      "TicketResponse": {
+        "type": "object",
+        "required": [
+          "ticket_id",
+          "status",
+          "next_step"
+        ],
+        "properties": {
+          "ticket_id": {
+            "type": "string",
+            "example": "IT-AB12CD34"
+          },
+          "status": {
+            "type": "string",
+            "example": "OPEN"
+          },
+          "ticket_type": {
+            "type": "string"
+          },
+          "employee_id": {
+            "type": "string"
+          },
+          "route_to": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "next_step": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}
